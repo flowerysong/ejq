@@ -31,6 +31,7 @@ read_file(const char *path) {
     return buffer;
 }
 
+
 int
 main(int ac, char *av[]) {
     int   c;
@@ -38,6 +39,8 @@ main(int ac, char *av[]) {
     bool  raw = false;
     char *expr = NULL;
     char *fname = NULL;
+    json *parsed = NULL;
+    json *res = NULL;
 
     while ((c = getopt(ac, av, "e:f:r")) != -1) {
         switch (c) {
@@ -60,17 +63,21 @@ main(int ac, char *av[]) {
 
     if (err || optind != ac) {
         fprintf(stderr, "Usage:\t%s", av[ 0 ]);
-        fprintf(stderr, " -e <expression> -f <file> [-r]\n");
+        fprintf(stderr, "-f <file> [-e <expression>] [-r]\n");
         exit(1);
     }
 
-    json *parsed = jsonParse(read_file(fname));
-    json *res = jsonSelect(parsed, expr);
-
-    if (jsonIsArray(res)) {
-        res = res->array;
-    } else if (jsonIsObject(res)) {
-        res = res->object;
+    parsed = jsonParse(read_file(fname));
+    if (expr) {
+        res = jsonSelect(parsed, expr);
+        /* Selection just returns a pointer to the appropriate place in the
+         * structure, to easily only output the selected bit we need to throw
+         * away the key and the following elements (if any).
+         */
+        res->key = NULL;
+        res->next = NULL;
+    } else {
+        res = parsed;
     }
 
     if (raw) {
