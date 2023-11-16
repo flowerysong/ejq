@@ -32,6 +32,28 @@ read_file(const char *path) {
 }
 
 
+static void
+raw_print(json *obj) {
+    switch (obj->type) {
+    case JSON_STRING:
+        printf("%s\n", obj->str);
+        break;
+
+    case JSON_ARRAY:
+        json *arr = obj->array;
+        while (arr) {
+            raw_print(arr);
+            arr = arr->next;
+        }
+        break;
+
+    default:
+        /* Nothing to do. */
+        break;
+    }
+}
+
+
 int
 main(int ac, char *av[]) {
     int   c;
@@ -81,7 +103,7 @@ main(int ac, char *av[]) {
     }
 
     if (raw) {
-
+        raw_print(res);
     } else {
         printf("%s", jsonToString(res, NULL));
     }
