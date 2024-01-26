@@ -1,0 +1,31 @@
+Summary:        A more performant jq alternative for simple cases
+Name:           @PACKAGE_NAME@
+Version:        @PACKAGE_VERSION@
+Release:        1%{?dist}
+License:        MIT AND BSD-2-Clause
+URL:            https://flowerysong.com/
+Source0:        %{name}-%{version}.tar.xz
+BuildRequires:  autoconf
+BuildRequires:  automake
+BuildRequires:  gcc
+BuildRequires:  make
+
+%description
+A simple CLI wrapper around James Barford's easy-json library.
+
+%prep
+%autosetup -n %{name}-%{version} -p1
+
+%build
+%configure
+%make_build
+
+%install
+%make_install
+
+%files
+%{_bindir}/ejq
+
+%changelog
+* %(date "+%a %b %d %Y") (Automated RPM build) - %{version}-%{release}
+- See git log for actual changes.

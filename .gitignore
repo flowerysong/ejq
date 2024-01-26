@@ -2,6 +2,7 @@
 .deps/
 Makefile
 Makefile.in
+VERSION
 aclocal.m4
 autom4te.cache/
 compile
@@ -15,3 +16,4 @@ depcomp
 ejq
 install-sh
 missing
+packaging/rpm/ejq.spec
