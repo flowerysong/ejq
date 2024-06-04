@@ -87,7 +87,7 @@ main(int ac, char *av[]) {
 
     if (err || optind != ac) {
         fprintf(stderr, "Usage:\t%s", av[ 0 ]);
-        fprintf(stderr, "-f <file> [-e <expression>] [-r]\n");
+        fprintf(stderr, " -f <file> [-e <expression>] [-r]\n");
         exit(1);
     }
 
