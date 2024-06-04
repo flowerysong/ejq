@@ -36,6 +36,10 @@ static void
 raw_print(json *obj) {
     json *arr = NULL;
 
+    if (obj == NULL) {
+        return;
+    }
+
     switch (obj->type) {
     case JSON_STRING:
         printf("%s\n", obj->str);
@@ -50,7 +54,8 @@ raw_print(json *obj) {
         break;
 
     default:
-        /* Nothing to do. */
+        /* just the normal repr */
+        printf("%s\n", jsonToString(obj, NULL));
         break;
     }
 }
@@ -98,8 +103,10 @@ main(int ac, char *av[]) {
          * structure, to easily only output the selected bit we need to throw
          * away the key and the following elements (if any).
          */
-        res->key = NULL;
-        res->next = NULL;
+        if (res) {
+            res->key = NULL;
+            res->next = NULL;
+        }
     } else {
         res = parsed;
     }
@@ -107,6 +114,6 @@ main(int ac, char *av[]) {
     if (raw) {
         raw_print(res);
     } else {
-        printf("%s", jsonToString(res, NULL));
+        printf("%s\n", jsonToString(res, NULL));
     }
 }
