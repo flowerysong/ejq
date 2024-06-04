@@ -13,7 +13,7 @@ read_file(const char *path) {
     char *buffer;
     int   fd = open(path, O_RDONLY, 0666);
     if (fd == -1) {
-        fprintf(stderr, "Cannot access file %s", path);
+        fprintf(stderr, "Cannot access file %s\n", path);
         exit(1);
     }
 
